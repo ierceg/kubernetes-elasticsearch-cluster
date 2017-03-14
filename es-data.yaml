@@ -6,7 +6,7 @@ metadata:
     component: elasticsearch
     role: data
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -54,9 +54,10 @@ spec:
           name: transport
           protocol: TCP
         volumeMounts:
-        - name: storage
+        - name: elasticsearch-storage
           mountPath: /data
       volumes:
-          - emptyDir:
-              medium: ""
-            name: "storage"
+        - name: elasticsearch-storage
+          gcePersistentDisk:
+            pdName: lazy-elasticsearch-1
+            fsType: ext4
